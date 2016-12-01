@@ -9,44 +9,27 @@ import java.util.*;
 public class Sort {
 
     public static void BucketSort(int[] a,int max,int min){
-        int bucketCount =(max-min)/10+1;
-        int length = max-min+1;
-        Integer[][] bucket = new Integer[bucketCount][length];  
+        int bucketCount =10;
+        int size = (max-min)/10+1;
+        ArrayList<ArrayList<Integer>> bucket = new ArrayList<>();//Integer[bucketCount][length];
+        for(int i=0;i<bucketCount;i++)
+        bucket.add(new ArrayList<>());
         for (int i=0; i<a.length; i++){
-            int x = (a[i]-min)/10; 
-            for (int j=0; j<length; j++){
-                if (bucket[x][j]==null){
-                    bucket[x][j]=a[i]-min;
-                    break;
-                }
-            }
+            int x = (a[i]-min)/size; 
+           bucket.get(x).add(a[i]);
         }
         System.out.println("");
-        for (int i=0;i<bucketCount;i++){
-            
-            
-            for (int j=1; j<length; j++){
-                if(bucket[i][j]==null){
-                    break;
-                }
-                int value = bucket[i][j];
-                int index=j;
-                while (index>0 && bucket[i][index-1]>value){
-                    bucket[i][index] = bucket[i][index-1];
-                    index--;
-                }
-                bucket[i][index] = value;
-            }
-            
-            
-            for(int j=0;j<length;j++){
-                if(bucket[i][j]==null){
-                    break;
-                }
-                    System.out.print(bucket[i][j]+min+" ");
-            }
-        }
         
+        String listOutput = "";
+        
+        for (int i=0;i<bucketCount;i++){
+           Collections.sort(bucket.get(i));
+           for(int j=0;j<bucket.get(i).size();j++){
+               listOutput += ((bucket.get(i).get(j))+" ");
+//System.out.print((bucket.get(i).get(j))+" ");
+           }
+        }
+        System.out.println(listOutput);
         
     }
     public static void main(String[] args) {
@@ -61,7 +44,7 @@ public class Sort {
             inputNumber = input.nextInt();
             if(inputNumber>max){
                 max = inputNumber;
-            }else if(inputNumber<min){
+            }if(inputNumber<min){
                 min = inputNumber;
             }
             num[i]=inputNumber;
